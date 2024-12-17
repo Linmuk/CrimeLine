@@ -1,0 +1,529 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="modinatheme">
+    <!-- ======== Page title ============ -->
+    <title>{% block title %}Crime Reporting System{% endblock %}</title>
+    <!-- ========== Favicon Icon ========== -->
+    <link rel="shortcut icon" href="{% static 'assets/img/logo.svg' %}">
+    <!-- ===========  All Stylesheet ================= -->
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/metismenu.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+</head>
+
+<body class="body-wrapper">
+
+    <div id="preloader" class="preloader">
+    <div class="animation-preloader">
+        <div class="spinner"></div>
+        <div class="txt-loading">
+            <span data-text-preloader="F" class="letters-loading">F</span>
+            <span data-text-preloader="O" class="letters-loading">O</span>
+            <span data-text-preloader="R" class="letters-loading">R</span>
+            <span data-text-preloader="T" class="letters-loading">T</span>
+            <span data-text-preloader="E" class="letters-loading">E</span>
+        </div>
+        <p class="text-center">Loading</p>
+    </div>
+    <div class="loader">
+        <div class="row">
+            <div class="col-3 loader-section section-left"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-left"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-right"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-right"><div class="bg"></div></div>
+        </div>
+    </div>
+</div>
+
+    <!-- welcome content start from here -->
+
+    <header class="header-wrap header-2 bg-primary">
+
+        <div class="container">
+        <div class="row align-items-center">
+            <!-- Logo Section -->
+            <div class="col-6 col-sm-5 col-xl-2">
+                <div class="logo">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'assets/img/logo.svg' %}" alt="logo">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="col-xl-7 d-none d-xl-block">
+                <div class="main-menu">
+                    <ul>
+{#                        <li><a href="{% url 'home' %}">Home </a></li>#}
+                        <li><a href="{% url 'report_crime' %}">Report Crime</a></li>
+                        <li><a href="{% url 'view_reports' %}">View Crimes</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'crime_statistics' %}">Statistics</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-nav-bar d-block col-sm-1 col-6 d-xl-none">
+                <div class="mobile-nav-wrap">
+                    <div id="hamburger">
+                        <i class="fal fa-bars"></i>
+                    </div>
+                    <div class="mobile-nav">
+                        <button type="button" class="close-nav" aria-label="Close navigation">
+                            <i class="fal fa-times-circle"></i>
+                        </button>
+                        <nav class="sidebar-nav">
+                            <ul class="metismenu" id="mobile-menu">
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'report_crime' %}">Report a Crime</a></li>
+                                <li><a href="{% url 'view_reports' %}">View Reported Crimes</a></li>
+                                <li><a href="{% url 'about' %}">About</a></li>
+                                <li><a href="{% url 'crime_statistics' %}">Statistics</a></li>
+                                {% if user.is_authenticated %}
+                                    <li>Hello, {{ user.username }}! <a href="{% url 'logout' %}">Logout</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></li>
+                                {% endif %}
+                                <li><a href="#">News</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+        </div>
+    </div>
+    </header>
+
+    <section class="page-banner-wrap bg-cover" >
+        <div class="banner-text">about</div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <div class="page-heading text-white">
+                        <div class="page-title">
+                            <h1>about Us</h1>
+                        </div>
+                    </div>
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">about</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-us-wrapper section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-12 pr-5">
+                    <div class="section-title mb-30">
+                        <p>About Crime Reporting</p>
+                        <h1>Efficient Crime Reporting <br>
+                            for Safer Communities</h1>
+                    </div>
+
+                    <p class="pr-lg-5">Our platform ensures secure, real-time crime reporting and tracking, empowering communities to address safety concerns effectively.</p>
+
+                    <div class="about-icon-box style-2">
+                        <div class="icon">
+                            <i class="fal fa-users"></i>
+                        </div>
+                        <div class="content">
+                            <h3>Secure Reporting</h3>
+                            <p>Ensure confidentiality with secure channels for reporting criminal activities.</p>
+                        </div>
+                    </div>
+                    <div class="about-icon-box style-2">
+                        <div class="icon">
+                            <i class="fal fa-bullseye-arrow"></i>
+                        </div>
+                        <div class="content">
+                            <h3>Real-Time Location Tracking</h3>
+                            <p>Track and monitor crime locations with real-time data visualization.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 pl-lg-5 mt-5 mt-lg-0 col-12">
+                    <div class="about-right-img">
+                        <span class="dot-circle"></span>
+                        <div class="about-us-img" style="background-image: url('{% static 'assets/img/cmap.jpeg' %}'); background-repeat: no-repeat;background-size: cover; background-position: center;"></div>
+
+                        </div>
+                        <span class="triangle-bottom-right"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mpt-50 pt-100">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="single-features-item">
+                        <div class="icon">
+                            <i class="flaticon-speech-bubble"></i>
+                        </div>
+                        <div class="content">
+                            <h3>Anonymous Tips</h3>
+                            <p>Report incidents anonymously to protect your identity.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="single-features-item">
+                        <div class="icon">
+                            <i class="flaticon-unlock"></i>
+                        </div>
+                        <div class="content">
+                            <h3>Surveillance Integration</h3>
+                            <p>Connect to surveillance systems for better crime analysis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="single-features-item">
+                        <div class="icon">
+                            <i class="flaticon-mobile-app"></i>
+                        </div>
+                        <div class="content">
+                            <h3>Incident Tracking</h3>
+                             <p>Monitor the status of your reports and receive timely updates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section section-padding">
+        <div class="faq-bg bg-cover d-none d-lg-block" style="background-image: url('{% static 'assets/img/crime.jpg' %}')"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-6 offset-lg-6 offset-xl-7">
+                    <div class="col-12 col-lg-12 mb-40">
+                        <div class="section-title">
+                            <p>Why choose us</p>
+                            <h1>Reliable Crime Reporting <br> For Safer Communities</h1>
+                        </div>
+                    </div>
+
+                    <div class="faq-content">
+                        <div class="faq-accordion">
+                            <div id="accordion" class="accordion">
+                                <div class="card">
+                                    <div class="card-header" id="faq1">
+                                        <p class="mb-0 text-capitalize">
+                                            <a class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" href="#faq-1">
+                                            Is my report confidential?
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div id="faq-1" class="collapse" data-parent="#accordion">
+                                        <div class="card-body">
+                                            Yes, all reports are handled with utmost confidentiality to ensure your safety and privacy.
+                                        </div>
+                                    </div>
+                                </div> <!-- /card -->
+                                <div class="card">
+                                    <div class="card-header" id="faq2">
+                                        <p class="mb-0 text-capitalize">
+                                            <a class="collapsed" role="button" data-toggle="collapse" aria-expanded="true" href="#faq-2">
+                                                 How do I track the status of my report?
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div id="faq-2" class="collapse show" data-parent="#accordion">
+                                        <div class="card-body">
+                                            You can track your report through your dashboard, where updates on actions taken will be provided.
+                                        </div>
+                                    </div>
+                                </div> <!-- /card -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <p class="mb-0 text-capitalize">
+                                            <a class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" href="#faq-3">
+                                                 Can I report anonymously?
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div id="faq-3" class="collapse" data-parent="#accordion">
+                                        <div class="card-body">
+                                             Yes, you can report anonymously. Simply select the anonymous option when submitting your report.
+                                        </div>
+                                    </div>
+                                </div> <!-- /card -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <p class="mb-0 text-capitalize">
+                                            <a class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" href="#faq-4">
+                                                 How long does it take to process a report?
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div id="faq-4" class="collapse" data-parent="#accordion">
+                                        <div class="card-body">
+                                             The processing time varies depending on the complexity of the case, but we aim to respond within 24-48 hours.
+                                        </div>
+                                    </div>
+                                </div> <!-- /card -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="funfact-wrapper text-white">
+        <div class="container">
+            <div class="funfact-content-grid bg-cover" style="background-image: url({% static 'assets/img/funfact-line.png' %})">
+                <div class="single-funfact-item">
+                    <div class="icon">
+                        <i class="fal fa-bullhorn"></i>
+                    </div>
+                    <h3>5,432</h3>
+                    <p>Cases Reported</p>
+                </div>
+                <div class="single-funfact-item">
+                    <div class="icon">
+                        <i class="fal fa-check-circle"></i>
+                    </div>
+                    <h3>4,210</h3>
+                    <p>Cases Resolved</p>
+                </div>
+                <div class="single-funfact-item">
+                    <div class="icon">
+                        <i class="fal fa-users"></i>
+                    </div>
+                    <h3>12,876</h3>
+                    <p>Registered Users</p>
+                </div>
+                <div class="single-funfact-item">
+                    <div class="icon">
+                        <i class="fal fa-handshake"></i>
+                    </div>
+                    <h3>35</h3>
+                    <p>Partner Organizations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-wrapper service-2 section-padding section-bg">
+        <div class="container">
+            <div class="row mb-50">
+                <div class="col-12 col-lg-12">
+                    <div class="section-title text-white text-center">
+                       <p>Crime Reporting Services</p>
+                        <h1>Our Key Features <br> For Safe Communities</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-xl-3 col-12">
+                    <div class="single-service-item">
+                        <div class="icon">
+                            <img src="{% static 'assets/img/icon/sicon1.png' %}" alt="service">
+                        </div>
+                        <h4>Incident Reporting</h4>
+                        <p>Easily report crimes securely and anonymously from anywhere.</p>
+                        <a href="">learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 col-12">
+                    <div class="single-service-item">
+                        <div class="icon">
+                            <img src="{% static 'assets/img/icon/sicon2.png' %}" alt="service">
+                        </div>
+                        <h4>Case Tracking</h4>
+                        <p>Track the progress of reported incidents in real-time.</p>
+                        <a href="">learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 col-12">
+                    <div class="single-service-item">
+                        <div class="icon">
+                            <img src="{% static 'assets/img/icon/sicon3.png' %}" alt="service">
+                        </div>
+                        <h4>Emergency Alerts</h4>
+                        <p>Receive notifications about nearby emergencies or safety tips.</p>
+                        <a href="">learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 col-12">
+                    <div class="single-service-item">
+                        <div class="icon">
+                            <img src="{% static 'assets/img/icon/sicon4.png' %}" alt="service">
+                        </div>
+                        <h4>Crime Statistics</h4>
+                        <p>Access detailed insights on crime trends in your area.</p>
+                        <a href="">learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+     <section class="cta-banner">
+        <div class="container-fluid bg-cover section-bg" style="background-image: url({% static 'assets/img/cta_bg1.png' %})">
+            <div class="cta-content">
+                <div class="row align-items-center">
+                    <div class="col-xl-7 text-white col-12 text-center text-xl-left">
+                        <h1>Take a Step Towards Safer Communities! <br> Report Crimes or Learn About Prevention Today.</h1>
+                    </div>
+                    <div class="col-xl-5 col-12 text-center text-xl-right">
+                        <a href="" class="theme-btn mt-4 mt-xl-0">Report a Crime  <i class="fas fa-arrow-right"></i></a>
+{#                        <a href="" class="ml-sm-3 mt-4 mt-xl-0 theme-btn minimal-btn">Learn More <i class="fas fa-arrow-right"></i></a>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <footer>
+        {% block footer %}
+            <div class="footer-widgets">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-6 col-xl-3 col-12 pr-xl-4">
+                        <div class="single-footer-wid site_footer_widget newsletter_widget">
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'assets/img/logo.svg' %}" alt="">
+                            </a>
+                            <p class="mt-4">Our crime reporting system empowers communities to report crimes securely,
+                                view statistics, and take action towards a safer society.
+                                Join us in making a difference by reporting any suspicious activities or incidents.</p>
+                            <div class="newsletter_box">
+                                <form action="#">
+                                    <input type="email" placeholder="Email address" required>
+                                    <button class="submit-btn" type="submit"><i class="fal fa-envelope-open-text"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-lg-3 - single-footer-wid -->
+                    <div class="col-md-6 col-xl-2 col-12">
+                        <div class="single-footer-wid">
+                            <div class="wid-title">
+                                <h4>Company</h4>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'report_crime' %}">Report Crime</a></li>
+                                <li><a href="{% url 'crime_statistics' %}">Crime Statistics</a></li>
+                                <li><a href="{% url 'view_reports' %}">View Report</a></li>
+                            </ul>
+                        </div>
+                    </div> <!-- /.col-lg-3 - single-footer-wid -->
+{#                    <div class="col-md-6 col-xl-3 col-12">#}
+{#                        <div class="single-footer-wid recent_post_widget">#}
+{#                            <div class="wid-title">#}
+{#                                <h4>News Updates</h4>#}
+{#                            </div>#}
+{#                            <div class="recent-post-list">#}
+{#                                <div class="single-recent-post">#}
+{#                                    <div class="thumb bg-cover" style="background-image: url({% static 'assets/img/blog/b1.jpg' %});"></div>#}
+{#                                    <div class="post-data">#}
+{#                                        <span><i class="fal fa-calendar-alt"></i>24th Nov 2020</span>#}
+{#                                        <h5><a href="">New Community Safety Initiatives Launched</a></h5>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="single-recent-post">#}
+{#                                    <div class="thumb bg-cover" style="background-image: url({% static 'assets/img/blog/b2.jpg' %});"></div>#}
+{#                                    <div class="post-data">#}
+{#                                        <span><i class="fal fa-calendar-alt"></i>15th July 2021</span>#}
+{#                                        <h5><a href="">5 Tips to Prevent Crime in Your Neighborhood</a></h5>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div> <!-- /.col-lg-3 - single-footer-wid -->#}
+                    <div class="col-md-6 col-xl-3 col-12">
+                        <div class="single-footer-wid contact_widget_2">
+                            <div class="wid-title">
+                                <h4>Contact Us</h4>
+                            </div>
+                            <div class="contact-us">
+                                <div class="single-contact-info">
+                                    <div class="icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <p>Kenya Nairobi,
+                                            Westlands, MP Shah rd</p>
+                                    </div>
+                                </div>
+                                <div class="single-contact-info">
+                                    <div class="icon">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <p>contact@crimesystem.com</p>
+                                    </div>
+                                </div>
+                                <div class="single-contact-info">
+                                    <div class="icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <p>+2547 90 584 900</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-lg-3 - single-footer-wid -->
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </footer>
+
+    <!--  ALl JS Plugins
+    ====================================== -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/modernizr.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.easing.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/js/imageload.min.js' %}"></script>
+    <script src="{% static 'assets/js/scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/easypiechart.min.js' %}"></script>
+    <script src="{% static 'assets/js/counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/metismenu.js' %}"></script>
+    <script src="{% static 'assets/js/timeline.min.js' %}"></script>
+    <script src="{% static 'assets/js/ajax-mail.js' %}"></script>
+    <script src="{% static 'assets/js/active.js' %}"></script>
+</body>
+
+</html>

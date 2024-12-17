@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Police Dashboard</title>
+</head>
+<body>
+    <h1>Incident Reports</h1>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Date Reported</th>
+            <th>Status</th>
+        </tr>
+        {% for incident in incidents %}
+        <tr>
+            <td>{{ incident.title }}</td>
+            <td>{{ incident.description }}</td>
+            <td>{{ incident.location }}</td>
+            <td>{{ incident.date_reported }}</td>
+            <td>{{ incident.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

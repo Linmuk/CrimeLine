@@ -1,0 +1,356 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Statistics</title>
+    <link rel="shortcut icon" href="{% static 'assets/img/logo.svg' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/metismenu.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <style>
+        .charts-container{
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .card{
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 800px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        }
+        .card:hover{
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<!-- Preloader -->
+<div id="preloader" class="preloader">
+    <div class="animation-preloader">
+        <div class="spinner"></div>
+        <div class="txt-loading">
+            <span data-text-preloader="F" class="letters-loading">F</span>
+            <span data-text-preloader="O" class="letters-loading">O</span>
+            <span data-text-preloader="R" class="letters-loading">R</span>
+            <span data-text-preloader="T" class="letters-loading">T</span>
+            <span data-text-preloader="E" class="letters-loading">E</span>
+        </div>
+        <p class="text-center">Loading</p>
+    </div>
+    <div class="loader">
+        <div class="row">
+            <div class="col-3 loader-section section-left"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-left"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-right"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-right"><div class="bg"></div></div>
+        </div>
+    </div>
+</div>
+<!-- Header -->
+<header class="header-wrap header-1 bg-primary ">
+
+    <div class="container">
+{#        <div class="row align-items-center">#}
+{#            <!-- Logo Section -->#}
+{#            <div class="col-6 col-sm-5 col-xl-2">#}
+{#                <div class="logo">#}
+{#                    <a href="{% url 'home' %}">#}
+{#                        <img src="{% static 'assets/img/logo.png' %}" alt="logo">#}
+{#                    </a>#}
+{#                </div>#}
+{#            </div>#}
+
+            <!-- Desktop Menu -->
+            <div class="col-xl-7 d-none d-xl-block">
+                <div class="main-menu">
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home </a></li>
+                        <li><a href="{% url 'report_crime' %}">Report Crime</a></li>
+                        <li><a href="{% url 'view_reports' %}">View Crimes</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'crime_statistics' %}">Statistics</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-nav-bar d-block col-sm-1 col-6 d-xl-none">
+                <div class="mobile-nav-wrap">
+                    <div id="hamburger">
+                        <i class="fal fa-bars"></i>
+                    </div>
+                    <div class="mobile-nav">
+                        <button type="button" class="close-nav" aria-label="Close navigation">
+                            <i class="fal fa-times-circle"></i>
+                        </button>
+                        <nav class="sidebar-nav">
+                            <ul class="metismenu" id="mobile-menu">
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'report_crime' %}">Report a Crime</a></li>
+                                <li><a href="{% url 'view_reports' %}">View Reported Crimes</a></li>
+                                <li><a href="{% url 'about' %}">About</a></li>
+                                <li><a href="{% url 'crime_statistics' %}">Statistics</a></li>
+                                {% if user.is_authenticated %}
+                                    <li>Hello, {{ user.username }}! <a href="{% url 'logout' %}">Logout</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></li>
+                                {% endif %}
+                                <li><a href="#">News</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+        </div>
+    </div>
+
+</header>
+<main>
+    <h1  class="mt-70">Crime Analytics Dashboard</h1>
+<!-- Crime by Category Pie Chart -->
+    <div class="charts-container">
+        <div class="card">
+            <h3>Crime Distribution by Category</h3>
+            <canvas id="crimeByCategoryChart" width="500" height="500"></canvas>
+        </div>
+         <!-- Monthly Crime Trend Line Chart -->
+        <div class="card">
+            <h3>Monthly Crime Trend</h3>
+            <canvas id="monthlyCrimeChart" width="500" height="500"></canvas>
+        </div>
+        <!-- Crime by Location Bar Chart -->
+        <div class="card">
+            <h3>Top 10 Crime Locations</h3>
+            <canvas id="crimeByLocationChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+</main>
+
+<section class="cta-banner mt-5">
+        <div class="container-fluid bg-cover section-bg" style="background-image: url({% static 'assets/img/cta_bg1.png' %})">
+            <div class="cta-content">
+                <div class="row align-items-center">
+                    <div class="col-xl-7 text-white col-12 text-center text-xl-left">
+                        <h1>Take a Step Towards Safer Communities! <br> Report Crimes or Learn About Prevention Today.</h1>
+                    </div>
+                    <div class="col-xl-5 col-12 text-center text-xl-right">
+                        <a href="" class="theme-btn mt-4 mt-xl-0">Report a Crime  <i class="fas fa-arrow-right"></i></a>
+{#                        <a href="" class="ml-sm-3 mt-4 mt-xl-0 theme-btn minimal-btn">Learn More <i class="fas fa-arrow-right"></i></a>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <footer>
+        {% block footer %}
+            <div class="footer-widgets">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-6 col-xl-3 col-12 pr-xl-4">
+                        <div class="single-footer-wid site_footer_widget newsletter_widget">
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'assets/img/logo.svg' %}" alt="">
+                            </a>
+                            <p class="mt-4">Our crime reporting system empowers communities to report crimes securely,
+                                view statistics, and take action towards a safer society.
+                                Join us in making a difference by reporting any suspicious activities or incidents.</p>
+                            <div class="newsletter_box">
+                                <form action="#">
+                                    <input type="email" placeholder="Email address" required>
+                                    <button class="submit-btn" type="submit"><i class="fal fa-envelope-open-text"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-lg-3 - single-footer-wid -->
+                    <div class="col-md-6 col-xl-2 col-12">
+                        <div class="single-footer-wid">
+                            <div class="wid-title">
+                                <h4>Company</h4>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'report_crime' %}">Report Crime</a></li>
+                                <li><a href="{% url 'crime_statistics' %}">Crime Statistics</a></li>
+                                <li><a href="{% url 'view_reports' %}">View Report</a></li>
+                            </ul>
+                        </div>
+                    </div> <!-- /.col-lg-3 - single-footer-wid -->
+{#                    <div class="col-md-6 col-xl-3 col-12">#}
+{#                        <div class="single-footer-wid recent_post_widget">#}
+{#                            <div class="wid-title">#}
+{#                                <h4>News Updates</h4>#}
+{#                            </div>#}
+{#                            <div class="recent-post-list">#}
+{#                                <div class="single-recent-post">#}
+{#                                    <div class="thumb bg-cover" style="background-image: url({% static 'assets/img/blog/b1.jpg' %});"></div>#}
+{#                                    <div class="post-data">#}
+{#                                        <span><i class="fal fa-calendar-alt"></i>24th Nov 2020</span>#}
+{#                                        <h5><a href="">New Community Safety Initiatives Launched</a></h5>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="single-recent-post">#}
+{#                                    <div class="thumb bg-cover" style="background-image: url({% static 'assets/img/blog/b2.jpg' %});"></div>#}
+{#                                    <div class="post-data">#}
+{#                                        <span><i class="fal fa-calendar-alt"></i>15th July 2021</span>#}
+{#                                        <h5><a href="">5 Tips to Prevent Crime in Your Neighborhood</a></h5>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div> <!-- /.col-lg-3 - single-footer-wid -->#}
+                    <div class="col-md-6 col-xl-3 col-12">
+                        <div class="single-footer-wid contact_widget_2">
+                            <div class="wid-title">
+                                <h4>Contact Us</h4>
+                            </div>
+                            <div class="contact-us">
+                                <div class="single-contact-info">
+                                    <div class="icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <p>Kenya Nairobi,
+                                            Westlands, MP Shah rd</p>
+                                    </div>
+                                </div>
+                                <div class="single-contact-info">
+                                    <div class="icon">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <p>contact@crimesystem.com</p>
+                                    </div>
+                                </div>
+                                <div class="single-contact-info">
+                                    <div class="icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <p>+2547 90 584 900</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-lg-3 - single-footer-wid -->
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </footer>
+
+    <script>
+        // Data for Crime by Category Pie Chart
+        var crimeByCategoryData = {
+            labels: [
+                {% for report in crime_by_category %}
+                    "{{ report.category }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for report in crime_by_category %}
+                        {{ report.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#C70039'],
+            }]
+        };
+
+        // Crime by Category Pie Chart
+        var ctx1 = document.getElementById('crimeByCategoryChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'pie',
+            data: crimeByCategoryData,
+        });
+
+        // Data for Monthly Crime Trend (Line Chart)
+        var monthlyCrimeData = {
+            labels: [
+                {% for month in monthly_crimes %}
+                    "{{ month.month }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Crimes Reported',
+                data: [
+                    {% for month in monthly_crimes %}
+                        {{ month.count }},
+                    {% endfor %}
+                ],
+                borderColor: '#FF5733',
+                fill: false,
+            }]
+        };
+
+        // Monthly Crime Trend Line Chart
+        var ctx2 = document.getElementById('monthlyCrimeChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: monthlyCrimeData,
+        });
+
+        // Data for Top 10 Crime Locations Bar Chart
+        var crimeByLocationData = {
+            labels: [
+                {% for location in crime_by_location %}
+                    "{{ location.location }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Crime Count',
+                data: [
+                    {% for location in crime_by_location %}
+                        {{ location.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: '#36A2EB',
+            }]
+        };
+
+        // Crime by Location Bar Chart
+        var ctx3 = document.getElementById('crimeByLocationChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: crimeByLocationData,
+        });
+    </script>
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/modernizr.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.easing.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'assets/js/imageload.min.js' %}"></script>
+<script src="{% static 'assets/js/scrollUp.min.js' %}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+<script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+<script src="{% static 'assets/js/counterup.min.js' %}"></script>
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<script src="{% static 'assets/js/metismenu.js' %}"></script>
+<script src="{% static 'assets/js/timeline.min.js' %}"></script>
+<script src="{% static 'assets/js/ajax-mail.js' %}"></script>
+<script src="{% static 'assets/js/active.js' %}"></script>
+</body>
+</html>
